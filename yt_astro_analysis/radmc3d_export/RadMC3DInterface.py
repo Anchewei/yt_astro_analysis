@@ -130,14 +130,14 @@ class RadMC3DWriter:
 
     """
 
-    def __init__(self, ds, max_level=2):
+    def __init__(self, ds, domain_dimensions, domain_left_edge, domain_right_edge, filename = "amr_grid.inp", max_level=2, ):
         self.max_level = max_level
         self.cell_count = 0
         self.layers = []
-        self.domain_dimensions = ds.domain_dimensions
-        self.domain_left_edge = ds.domain_left_edge
-        self.domain_right_edge = ds.domain_right_edge
-        self.grid_filename = "amr_grid.inp"
+        self.domain_dimensions = domain_dimensions
+        self.domain_left_edge = domain_left_edge
+        self.domain_right_edge = domain_right_edge
+        self.grid_filename = filename
         self.ds = ds
 
         base_layer = RadMC3DLayer(
@@ -150,7 +150,7 @@ class RadMC3DWriter:
         )
 
         self.layers.append(base_layer)
-        self.cell_count += np.prod(ds.domain_dimensions)
+        self.cell_count += np.prod(domain_dimensions)
 
         sorted_grids = sorted(ds.index.grids, key=lambda x: x.Level)
         for grid in sorted_grids:
