@@ -55,7 +55,9 @@ class RadMC3DLayer:
 
         """
         LE, RE = self.get_overlap_with(grid)
-        if np.any(RE <= LE):
+        N = (RE - LE) / grid.dds
+        N = np.array([int(n + 0.5) for n in N])
+        if np.any(N <= 0):
             return False
         else:
             return True
