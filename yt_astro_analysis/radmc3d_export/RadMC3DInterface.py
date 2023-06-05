@@ -154,7 +154,7 @@ class RadMC3DWriter:
 
         sorted_grids = sorted(ds.index.grids, key=lambda x: x.Level)
         for grid in sorted_grids:
-            if grid.Level <= self.max_level:
+            if (grid.Level <= self.max_level) & (base_layer.overlaps(grid)):
                 self._add_grid_to_layers(grid)
 
     def _get_parents(self, grid):
