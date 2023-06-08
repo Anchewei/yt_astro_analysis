@@ -185,6 +185,10 @@ class RadMC3DWriter:
         LE = self.domain_left_edge
         RE = self.domain_right_edge
 
+        for layer in self.layers:
+            LE = np.minimum(LE, layer.LeftEdge)
+            RE = np.maximum(RE, layer.RightEdge)
+
         # RadMC-3D wants the cell wall positions in cgs. Convert here:
         LE_cgs = LE.in_units("cm").d  # don't write the units, though
         RE_cgs = RE.in_units("cm").d
