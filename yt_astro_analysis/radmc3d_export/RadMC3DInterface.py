@@ -156,16 +156,6 @@ class RadMC3DWriter:
         for grid in sorted_grids:
             if (grid.Level <= self.max_level) & (base_layer.overlaps(grid)):
                 self._add_grid_to_layers(grid)
-        
-        for layer in self.layers:
-            self.domain_left_edge = np.minimum(self.domain_left_edge, layer.LeftEdge)
-            self.domain_right_edge = np.maximum(self.domain_right_edge, layer.RightEdge)
-
-        base_layer.LeftEdge = self.domain_left_edge
-        base_layer.RightEdge = self.domain_right_edge
-
-        print("LE = ", self.domain_left_edge.in_units("cm").d)
-        print("RE = ", self.domain_right_edge.in_units("cm").d)
 
     def _get_parents(self, grid):
         parents = []
