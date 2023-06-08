@@ -156,6 +156,16 @@ class RadMC3DWriter:
         for grid in sorted_grids:
             if (grid.Level <= self.max_level) & (base_layer.overlaps(grid)):
                 self._add_grid_to_layers(grid)
+        
+        for layer in self.layers:
+            self.domain_left_edge = np.minimum(self.domain_left_edge, layer.LeftEdge)
+            self.domain_right_edge = np.maximum(self.domain_right_edge, layer.RightEdge)
+
+        base_layer.LeftEdge = self.domain_left_edge
+        base_layer.RightEdge = self.domain_right_edge
+
+        print("LE = ", self.domain_left_edge.in_units("cm").d)
+        print("RE = ", self.domain_right_edge.in_units("cm").d)
 
     def _get_parents(self, grid):
         parents = []
@@ -185,16 +195,9 @@ class RadMC3DWriter:
         LE = self.domain_left_edge
         RE = self.domain_right_edge
 
-        for layer in self.layers:
-            LE = np.minimum(LE, layer.LeftEdge)
-            RE = np.maximum(RE, layer.RightEdge)
-
         # RadMC-3D wants the cell wall positions in cgs. Convert here:
         LE_cgs = LE.in_units("cm").d  # don't write the units, though
         RE_cgs = RE.in_units("cm").d
-
-        print("LE = ", LE_cgs)
-        print("RE = ", RE_cgs)
 
         # calculate cell wall positions
         xs = [str(x) for x in np.linspace(LE_cgs[0], RE_cgs[0], dims[0] + 1)]
