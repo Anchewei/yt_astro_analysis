@@ -193,6 +193,9 @@ class RadMC3DWriter:
         LE_cgs = LE.in_units("cm").d  # don't write the units, though
         RE_cgs = RE.in_units("cm").d
 
+        print("LE = ", LE_cgs.value)
+        print("RE = ", RE_cgs.value)
+
         # calculate cell wall positions
         xs = [str(x) for x in np.linspace(LE_cgs[0], RE_cgs[0], dims[0] + 1)]
         ys = [str(y) for y in np.linspace(LE_cgs[1], RE_cgs[1], dims[1] + 1)]
